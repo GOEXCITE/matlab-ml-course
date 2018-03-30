@@ -28,13 +28,21 @@ X = [ones(m, 1) X];
 %       max element, for more information see 'help max'. If your examples 
 %       are in rows, then, you can use max(A, [], 2) to obtain the max 
 %       for each row.
-%       
+%   
 
-
-
-
-
-
+% solution #1
+tmp = X * all_theta';
+for i = 1:m
+    max_value = -10000;
+    max_value_index = -1;
+    for j = 1:num_labels
+        if tmp(i, j) > max_value
+            max_value = tmp(i, j);
+            max_value_index = j;
+        end
+    end
+    p(i, 1) = max_value_index;
+end
 
 % =========================================================================
 

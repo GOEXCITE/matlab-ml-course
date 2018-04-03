@@ -21,9 +21,23 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+X = [ones(m, 1) X];
+z2 = X * Theta1';
+a2 = sigmoid(z2);
+z3 = [ones(m, 1) a2] * Theta2';
+output = sigmoid(z3);
 
-
-
+for i = 1:m
+    max_value = -10000;
+    max_value_index = -1;
+    for j = 1:num_labels
+        if output(i, j) > max_value
+            max_value = output(i, j);
+            max_value_index = j;
+        end
+    end
+    p(i, 1) = max_value_index;
+end
 
 
 

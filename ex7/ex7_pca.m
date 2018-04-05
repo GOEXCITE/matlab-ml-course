@@ -64,7 +64,7 @@ fprintf('Top eigenvector: \n');
 fprintf(' U(:,1) = %f %f \n', U(1,1), U(2,1));
 fprintf('\n(you should expect to see -0.707107 -0.707107)\n');
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Program paused. Press enter to continue.1\n');
 pause;
 
 
@@ -100,7 +100,7 @@ for i = 1:size(X_norm, 1)
 end
 hold off
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Program paused. Press enter to continue.2\n');
 pause;
 
 %% =============== Part 4: Loading and Visualizing Face Data =============
@@ -135,7 +135,7 @@ fprintf(['\nRunning PCA on face dataset.\n' ...
 %  Visualize the top 36 eigenvectors found
 displayData(U(:, 1:36)');
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Program paused. Press enter to continue.3\n');
 pause;
 
 
@@ -150,7 +150,7 @@ Z = projectData(X_norm, U, K);
 fprintf('The projected data Z has a size of: ')
 fprintf('%d ', size(Z));
 
-fprintf('\n\nProgram paused. Press enter to continue.\n');
+fprintf('\n\nProgram paused. Press enter to continue.4\n');
 pause;
 
 %% ==== Part 7: Visualization of Faces after PCA Dimension Reduction ====
@@ -175,7 +175,7 @@ displayData(X_rec(1:100,:));
 title('Recovered faces');
 axis square;
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Program paused. Press enter to continue.5\n');
 pause;
 
 

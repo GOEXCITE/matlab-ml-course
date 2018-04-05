@@ -21,11 +21,20 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+m = size(X, 1);
 
-
-
-
-
+for i = 1:m
+    item = X(i, :);
+    min_distance = norm(item - centroids(1, :));
+    idx(i, 1) = 1;
+    for j = 2:K
+        tmp_distance = norm(item - centroids(j, :));
+        if tmp_distance < min_distance
+            min_distance = tmp_distance;
+            idx(i, 1) = j;
+        end
+    end
+end
 
 % =============================================================
 

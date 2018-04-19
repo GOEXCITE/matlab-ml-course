@@ -92,13 +92,21 @@ J = sum_J + regu;
 % Unroll gradients
 for i=1:m
     delta3 = a3(i, :) - y_real_result(i, :);
-    Theta2_grad = Theta2_grad + delta3' * [1 a2(i, :)];
+    %     regulation
+    delta2_regulation = Theta2 * lambda;
+    delta2_regulation(:, 1) = 0;
+    %     regulation - end
+    Theta2_grad = Theta2_grad + delta3' * [1 a2(i, :)] + delta2_regulation;
     
     a2_vector = a2(i, :)';
     value =  a2_vector .* (1 - a2_vector);
     delta2 = Theta2' * delta3' .* ([1; value]);
     delta2 = delta2(2:end);
-    Theta1_grad = Theta1_grad + delta2 * [1 X(i, :)];
+    %     regulation
+    delta1_regulation = Theta1 * lambda;
+    delta1_regulation(:, 1) = 0;
+    %     regulation - end
+    Theta1_grad = Theta1_grad + delta2 * [1 X(i, :)] + delta1_regulation;
 end
 Theta2_grad = Theta2_grad / m;
 Theta1_grad = Theta1_grad / m;

@@ -62,24 +62,26 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 % Calculate Cost Function
-os = ones(size(X, 1), num_labels);
+os = ones(m, num_labels);
 
-h1 = sigmoid([ones(m, 1) X] * Theta1');
-h2 = sigmoid([ones(m, 1) h1] * Theta2');
+a2 = sigmoid([ones(m, 1) X] * Theta1');
+a3 = sigmoid([ones(m, 1) a2] * Theta2');
 
-com_y = zeros(m, num_labels);
+y_real_result = zeros(m, num_labels);
 for j = 1:num_labels    
-    com_y(:, j) = y == j;    
+    y_real_result(:, j) = y == j;    
 end
 
-r_matrix = (-com_y .* log(h2) - (os - com_y) .* log(os - h2));
+r_matrix = (-y_real_result .* log(a3) - (os - y_real_result) .* log(os - a3));
 sum_J = sum(sum(r_matrix)) / m;
 
 % Regularized cost function
-Theta1(:, 1) = [];
-Theta2(:, 1) = [];
+Theta1_short = Theta1;
+Theta1_short(:, 1) = [];
+Theta2_short = Theta2;
+Theta2_short(:, 1) = [];
 
-regu = (sum(sum(Theta1 .^2)) + sum(sum(Theta2 .^2))) * lambda / (2 * m);
+regu = (sum(sum(Theta1_short .^2)) + sum(sum(Theta2_short .^2))) * lambda / (2 * m);
 
 J = sum_J + regu;
 
@@ -88,7 +90,19 @@ J = sum_J + regu;
 % =========================================================================
 
 % Unroll gradients
-grad = [Theta1_grad(:) ; Theta2_grad(:)];
+for i=1:m
+    delta3 = a3(i, :) - y_real_result(i, :);
+    Theta2_grad = Theta2_grad + delta3' * [1 a2(i, :)];
+    
+    a2_vector = a2(i, :)';
+    value =  a2_vector .* (1 - a2_vector);
+    delta2 = Theta2' * delta3' .* ([1; value]);
+    delta2 = delta2(2:end);
+    Theta1_grad = Theta1_grad + delta2 * [1 X(i, :)];
+end
+Theta2_grad = Theta2_grad / m;
+Theta1_grad = Theta1_grad / m;
 
+grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 end
